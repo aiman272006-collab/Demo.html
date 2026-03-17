@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Your Restaurant Name | Order Online</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+scroll-behavior:smooth;
+}
+
+body{
+background:#fff;
+color:#333;
+}
+
+/* NAVBAR */
+
+nav{
+position:sticky;
+top:0;
+background:black;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+z-index:1000;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+nav a:hover{
+color:red;
+}
+
+.menu-toggle{
+display:none;
+font-size:28px;
+cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+height:90vh;
+background:url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092") center/cover no-repeat;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+}
+
+.hero-content{
+background:rgba(0,0,0,0.5);
+padding:40px;
+border-radius:10px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.btn{
+padding:12px 25px;
+border:none;
+border-radius:5px;
+margin:5px;
+cursor:pointer;
+}
+
+.menu-btn{
+background:red;
+color:white;
+}
+
+.whatsapp-btn{
+background:#25D366;
+color:white;
+}
+
+/* SECTIONS */
+
+.section{
+padding:70px 10%;
+text-align:center;
+}
+
+.section h2{
+margin-bottom:20px;
+font-size:32px;
+}
+
+/* MENU */
+
+.menu-filter button{
+padding:8px 15px;
+margin:5px;
+border:none;
+background:black;
+color:white;
+cursor:pointer;
+}
+
+.menu-grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.menu-card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+opacity:0;
+transform:translateY(30px);
+}
+
+.menu-card.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.menu-card:hover{
+transform:scale(1.05);
+}
+
+.menu-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.menu-info{
+padding:15px;
+}
+
+.price{
+color:red;
+font-weight:bold;
+}
+
+/* GALLERY */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:10px;
+}
+
+.gallery img{
+width:100%;
+height:200px;
+object-fit:cover;
+cursor:pointer;
+border-radius:8px;
+}
+
+/* LIGHTBOX */
+
+#lightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+#lightbox img{
+max-width:90%;
+max-height:80%;
+}
+
+/* REVIEWS */
+
+.reviews{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.review{
+background:#f5f5f5;
+padding:20px;
+border-radius:10px;
+}
+
+/* ORDER SECTION */
+
+.order{
+background:black;
+color:white;
+padding:60px;
+}
+
+.order a{
+background:#25D366;
+padding:15px 30px;
+color:white;
+text-decoration:none;
+border-radius:5px;
+display:inline-block;
+margin-top:20px;
+}
+
+/* CONTACT */
+
+form{
+max-width:500px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+input,textarea{
+padding:12px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:red;
+color:white;
+border:none;
+padding:12px;
+cursor:pointer;
+}
+
+/* FOOTER */
+
+footer{
+background:black;
+color:white;
+padding:30px;
+text-align:center;
+}
+
+/* FLOATING BUTTONS */
+
+.floating-whatsapp{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25D366;
+color:white;
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+text-decoration:none;
+}
+
+#topBtn{
+position:fixed;
+bottom:25px;
+left:25px;
+padding:12px;
+background:red;
+color:white;
+border:none;
+border-radius:50%;
+cursor:pointer;
+display:none;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+nav ul{
+display:none;
+flex-direction:column;
+background:black;
+position:absolute;
+top:60px;
+right:0;
+width:200px;
+}
+
+nav ul.show{
+display:flex;
+}
+
+.menu-toggle{
+display:block;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<nav>
+
+<div class="logo">Delicious Bites</div>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<ul id="navMenu">
+<li><a href="#about">About</a></li>
+<li><a href="#menu">Menu</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Fresh & Delicious Food</h1>
+
+<p>The best dumplings, burgers and pizza in town</p>
+
+<button class="btn menu-btn" onclick="document.getElementById('menu').scrollIntoView()">View Menu</button>
+
+<button class="btn whatsapp-btn" onclick="orderWhatsApp()">Order on WhatsApp</button>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="section" id="about">
+
+<h2>About Our Restaurant</h2>
+
+<p>
+We serve delicious meals prepared with fresh ingredients and authentic recipes.
+Enjoy dumplings, burgers, pizza and many other tasty dishes in a friendly atmosphere.
+</p>
+
+</section>
+
+
+<!-- MENU -->
+
+<section class="section" id="menu">
+
+<h2>Our Menu</h2>
+
+<div class="menu-filter">
+<button onclick="filterMenu('all')">All</button>
+<button onclick="filterMenu('dumplings')">Dumplings</button>
+<button onclick="filterMenu('burger')">Burgers</button>
+<button onclick="filterMenu('pizza')">Pizza</button>
+<button onclick="filterMenu('fastfood')">Fast Food</button>
+<button onclick="filterMenu('drinks')">Drinks</button>
+</div>
+
+<div class="menu-grid">
+
+<div class="menu-card dumplings">
+<img src="https://images.unsplash.com/photo-1625944198473-7d0a4b78c7d6">
+<div class="menu-info">
+<h3>Dumplings / Momos</h3>
+<p>Fresh steamed dumplings</p>
+<div class="price">$6</div>
+</div>
+</div>
+
+<div class="menu-card burger">
+<img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd">
+<div class="menu-info">
+<h3>Classic Burger</h3>
+<div class="price">$8</div>
+</div>
+</div>
+
+<div class="menu-card pizza">
+<img src="https://images.unsplash.com/photo-1594007654729-407eedc4be65">
+<div class="menu-info">
+<h3>Pepperoni Pizza</h3>
+<div class="price">$10</div>
+</div>
+</div>
+
+<div class="menu-card fastfood">
+<img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086">
+<div class="menu-info">
+<h3>Fast Food Combo</h3>
+<div class="price">$7</div>
+</div>
+</div>
+
+<div class="menu-card drinks">
+<img src="https://images.unsplash.com/photo-1551024506-0bccd828d307">
+<div class="menu-info">
+<h3>Fresh Drinks</h3>
+<div class="price">$3</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- GALLERY -->
+
+<section class="section" id="gallery">
+
+<h2>Food Gallery</h2>
+
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+
+<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+
+<img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38">
+
+<img src="https://images.unsplash.com/photo-1512058564366-c9e7c4c1a1e2">
+
+</div>
+
+</section>
+
+
+<!-- REVIEWS -->
+
+<section class="section">
+
+<h2>Customer Reviews</h2>
+
+<div class="reviews">
+
+<div class="review">⭐️⭐️⭐️⭐️⭐️ Amazing dumplings and great service!</div>
+
+<div class="review">⭐️⭐️⭐️⭐️⭐️ Best burger in town.</div>
+
+<div class="review">⭐️⭐️⭐️⭐️⭐️ Fast delivery and delicious food.</div>
+
+</div>
+
+</section>
+
+
+<!-- ORDER -->
+
+<section class="order">
+
+<h2>Order Your Favorite Food</h2>
+
+<p>Call or order directly on WhatsApp</p>
+
+<a href="https://wa.me/923000000000">Order Now</a>
+
+</section>
+
+
+<!-- MAP -->
+
+<section class="section">
+
+<h2>Our Location</h2>
+
+<iframe
+src="https://maps.google.com/maps?q=restaurant&t=&z=13&ie=UTF8&iwloc=&output=embed"
+width="100%"
+height="350"
+style="border:0;">
+</iframe>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section class="section" id="contact">
+
+<h2>Contact Us</h2>
+
+<form>
+
+<input type="text" placeholder="Your Name">
+
+<input type="tel" placeholder="Phone">
+
+<textarea rows="4" placeholder="Message"></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+</section>
+
+
+<footer>
+
+<p>Opening Hours: 11 AM – 11 PM</p>
+
+<p>Phone: +92 300 0000000</p>
+
+<p>Address: Main Street</p>
+
+</footer>
+
+
+<a href="https://wa.me/923000000000" class="floating-whatsapp">💬</a>
+
+<button id="topBtn">⬆</button>
+
+
+<div id="lightbox">
+<img id="lightbox-img">
+</div>
+
+
+<script>
+
+/* MOBILE MENU */
+
+function toggleMenu(){
+
+document.getElementById("navMenu").classList.toggle("show")
+
+}
+
+
+/* WHATSAPP */
+
+function orderWhatsApp(){
+
+window.open("https://wa.me/923000000000")
+
+}
+
+
+/* MENU FILTER */
+
+function filterMenu(category){
+
+let items=document.querySelectorAll(".menu-card")
+
+items.forEach(item=>{
+
+if(category==="all"){
+item.style.display="block"
+}
+
+else if(item.classList.contains(category)){
+item.style.display="block"
+}
+
+else{
+item.style.display="none"
+}
+
+})
+
+}
+
+
+/* BACK TO TOP */
+
+let topBtn=document.getElementById("topBtn")
+
+window.onscroll=function(){
+
+if(document.documentElement.scrollTop>200){
+topBtn.style.display="block"
+}
+
+else{
+topBtn.style.display="none"
+}
+
+}
+
+topBtn.onclick=function(){
+window.scrollTo({top:0,behavior:"smooth"})
+}
+
+
+/* GALLERY LIGHTBOX */
+
+let images=document.querySelectorAll(".gallery img")
+let lightbox=document.getElementById("lightbox")
+let lightboxImg=document.getElementById("lightbox-img")
+
+images.forEach(img=>{
+
+img.onclick=()=>{
+
+lightbox.style.display="flex"
+lightboxImg.src=img.src
+
+}
+
+})
+
+lightbox.onclick=()=>{
+
+lightbox.style.display="none"
+
+}
+
+
+/* SCROLL ANIMATION */
+
+let cards=document.querySelectorAll(".menu-card")
+
+window.addEventListener("scroll",()=>{
+
+cards.forEach(card=>{
+
+let top=card.getBoundingClientRect().top
+
+if(top<window.innerHeight-100){
+
+card.classList.add("show")
+
+}
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
